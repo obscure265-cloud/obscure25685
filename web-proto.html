@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>OBSCURE</title>
+<link rel="icon" type="image/x-icon" href="https://ella.janitorai.com/media-approved/wddSCytJpQ3wt-imU5NQB.webp">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{
+  height:100%;background:#000;color:#00ff66;
+  font-family:'Courier New',monospace;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  overflow:hidden; /* Remove scrolling entirely */
+  min-height:100vh;
+}
+
+/* Hide scrollbar for all elements */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* ===== MATRIX BACKGROUND ===== */
+#matrix-bg{
+  position:fixed;inset:0;width:100%;height:100%;
+  z-index:0;pointer-events:none;opacity:.18;mix-blend-mode:screen;
+}
+
+/* ===== CRT / SCREEN EFFECT ===== */
+.crt-overlay,.vignette{position:fixed;inset:0;pointer-events:none;z-index:1;}
+.crt-overlay::before{
+  content:"";position:absolute;inset:0;
+  background:repeating-linear-gradient(to bottom,rgba(0,255,100,0.05)0 1px,rgba(0,0,0,0)1px 3px);
+  opacity:.25;animation:scanlines 1.2s linear infinite;mix-blend-mode:overlay;
+}
+@keyframes scanlines{0%{background-position:0 0;}100%{background-position:0 100%;}}
+.vignette::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(circle at center,rgba(0,0,0,0)55%,rgba(0,0,0,0.65)100%);
+}
+
+/* ===== LOADER ===== */
+.loader-screen{
+  position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;
+  flex-direction:column;background:radial-gradient(circle at center,#001600 0%,#000 80%);
+  transition: opacity 0.8s ease; /* Slower fade out */
+}
+.screen-noise{position:absolute;inset:0;background:repeating-radial-gradient(circle,#030303 0,#000 100%);opacity:.08;mix-blend-mode:lighten;}
+.terminal-glow{
+  z-index:2;text-align:center;text-transform:uppercase;color:#00ff66;
+  letter-spacing:2px;font-size:1rem;
+  text-shadow:0 0 8px #00ff66,0 0 18px #00ff99;animation:loaderFlicker 3s infinite;
+}
+@keyframes loaderFlicker{0%,100%{opacity:1;}92%,94%,96%{opacity:.7;}}
+.loader-line{
+  display:block;white-space:nowrap;overflow:hidden;border-right:2px solid rgba(0,255,102,0.9);
+  width:0;opacity:0;font-weight:600;margin:6px 0;
+  animation:typing 1.8s steps(30) forwards; /* Slower typing */
+}
+.loader-line:nth-child(1){animation-delay:.3s;}
+.loader-line:nth-child(2){animation-delay:1.3s;} /* Adjusted delays */
+.loader-line:nth-child(3){animation-delay:2.8s;font-size:1.6rem;color:#00ff99;text-shadow:0 0 12px #00ff99,0 0 30px #00ff66;} /* Slower appearance */
+.loader-line:nth-child(4){animation-delay:4.4s;} /* Slower appearance */
+@keyframes typing{0%{width:0;opacity:0;}10%{opacity:1;}100%{width:100%;opacity:1;}}
+
+/* ===== MAIN ===== */
+.stage{
+  width:100%;max-width:900px;padding:40px 20px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:28px;z-index:3;text-align:center;
+}
+.main{display:none;flex-direction:column;align-items:center;gap:24px;width:100%;animation:fadeInMain 1.8s ease forwards;} /* Slower fade in */
+@keyframes fadeInMain{0%{opacity:0;transform:translateY(20px);}100%{opacity:1;transform:translateY(0);}}
+
+/* ===== PROFILE IMAGE ===== */
+.profile-img{
+  width:220px;height:220px;border-radius:50%;
+  border:2px solid rgba(0,255,100,0.3);
+  box-shadow:0 0 15px #00ff66,0 0 35px #00ff99;
+  animation:pulseGlow 3.5s ease-in-out infinite alternate; /* Slower pulse */
+  transition: all 0.6s ease; /* Smooth transitions */
+}
+@keyframes pulseGlow{
+  0%{box-shadow:0 0 10px #00ff66,0 0 25px #00ff99;}
+  100%{box-shadow:0 0 25px #00ff99,0 0 50px #00ff66;}
+}
+
+/* ===== HEADER ===== */
+.header{
+  font-size:clamp(1.8rem,4vw,2.8rem);
+  text-shadow:0 0 12px #00ff66,0 0 28px #00ff99;
+  animation:headerGlitch 3s infinite; /* Slower glitch */
+  margin-top:12px;
+  transition: all 0.6s ease; /* Smooth transitions */
+}
+@keyframes headerGlitch{
+  0%{text-shadow:2px 0 #00ff66,-2px 0 #0099ff;}
+  20%{text-shadow:-2px 0 #00ff66,2px 0 #00ffaa;}
+  40%{text-shadow:0 0 10px #00ff66;}
+  60%{text-shadow:1px 1px #00ff66,-1px -1px #00ff88;}
+  100%{text-shadow:0 0 12px #00ff66;}
+}
+
+/* ===== WELCOME TEXT ===== */
+.welcome-text {
+  font-size: 1rem;
+  color: #00cc55;
+  text-shadow: 0 0 8px #00cc55;
+  margin-top: -10px;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+  opacity: 0.9;
+  animation: welcomeFlicker 5s infinite; /* Slower flicker */
+  transition: all 0.6s ease; /* Smooth transitions */
+}
+
+@keyframes welcomeFlicker {
+  0%, 100% { opacity: 0.9; }
+  50% { opacity: 0.7; }
+}
+
+/* ===== ENHANCED PANELS ===== */
+.panel{
+  width:100%;max-width:720px;margin:auto;
+  background: linear-gradient(145deg, rgba(0,25,0,0.85), rgba(0,15,0,0.9));
+  border-radius: 12px;
+  border: 1px solid rgba(0,255,100,0.2);
+  box-shadow: 
+    0 8px 32px rgba(0,255,100,0.1),
+    inset 0 1px 0 rgba(255,255,255,0.1),
+    inset 0 -1px 0 rgba(0,0,0,0.5);
+  overflow:hidden;
+  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  opacity:0;
+  transform:translateY(20px);
+  animation:panelFade 1.2s ease forwards; /* Slower panel fade */
+  position: relative;
+}
+
+.panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(0,255,100,0.6), 
+    transparent);
+  transition: all 0.6s ease; /* Smooth transitions */
+}
+
+.panel:nth-of-type(1){animation-delay:.4s;}
+.panel:nth-of-type(2){animation-delay:.8s;}
+.panel:nth-of-type(3){animation-delay:1.2s;}
+.panel:nth-of-type(4){animation-delay:1.6s;}
+@keyframes panelFade{to{opacity:1;transform:translateY(0);}}
+
+/* Panel Hover Effects */
+.panel:hover{
+  transform:translateY(-8px) scale(1.02);
+  box-shadow: 
+    0 15px 40px rgba(0,255,100,0.2),
+    inset 0 1px 0 rgba(255,255,255,0.15),
+    inset 0 -1px 0 rgba(0,0,0,0.6);
+  border-color: rgba(0,255,100,0.4);
+  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Panel Header */
+.panel h2{
+  margin:0;
+  padding:16px 20px;
+  font-size:1.2rem;
+  background: linear-gradient(180deg, 
+    rgba(0,255,100,0.1), 
+    rgba(0,255,100,0.05));
+  border-bottom: 1px solid rgba(0,255,100,0.15);
+  text-shadow: 0 0 10px rgba(0,255,100,0.5);
+  position: relative;
+  letter-spacing: 1px;
+  transition: all 0.6s ease; /* Smooth transitions */
+}
+
+.panel h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 20px;
+  right: 20px;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(0,255,100,0.4), 
+    transparent);
+  transition: all 0.6s ease; /* Smooth transitions */
+}
+
+/* Panel Content */
+.panel-content{
+  padding:20px 24px;
+  color:#c8ffd5;
+  line-height:1.6;
+  max-height:0;
+  opacity:0;
+  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+}
+
+.panel:hover .panel-content{
+  opacity:1;
+  max-height:900px;
+  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* ===== ACCOUNTS GRID ===== */
+.accounts-grid {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 25px;
+  padding: 20px;
+}
+
+.account-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.6s ease; /* Slower transitions */
+  padding: 12px 15px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #00ff80;
+  background: rgba(0,30,0,0.3);
+  border: 1px solid rgba(0,255,100,0.1);
+}
+
+.account-item:hover {
+  transform: scale(1.1);
+  background: rgba(0,40,0,0.5);
+  border-color: rgba(0,255,100,0.3);
+  box-shadow: 0 0 15px rgba(0,255,100,0.2);
+  transition: all 0.6s ease; /* Slower transitions */
+}
+
+.account-icon {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 10px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px #00ff66);
+  transition: all 0.6s ease; /* Smooth transitions */
+}
+
+/* ===== FOLDER STYLES ===== */
+.folder-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+}
+
+.folder-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: #00ff80;
+  transition: all 0.6s ease; /* Slower transitions */
+  position: relative;
+  padding: 15px;
+  border-radius: 8px;
+  background: rgba(0,25,0,0.4);
+  border: 1px solid rgba(0,255,100,0.1);
+}
+
+.folder-item:hover {
+  transform: scale(1.05);
+  background: rgba(0,35,0,0.6);
+  border-color: rgba(0,255,100,0.3);
+  box-shadow: 0 0 15px rgba(0,255,100,0.2);
+  transition: all 0.6s ease; /* Slower transitions */
+}
+
+.folder-icon {
+  width: 70px;
+  height: 70px;
+  margin-bottom: 15px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px #00ff66);
+  transition: all 0.6s ease; /* Smooth transitions */
+}
+
+.folder-name {
+  font-size: 0.9rem;
+  text-align: center;
+  font-weight: bold;
+  transition: all 0.6s ease; /* Smooth transitions */
+}
+
+/* Fixed Tooltip for folder description */
+.folder-item::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 40, 0, 0.95);
+  color: #c8ffd5;
+  padding: 10px 15px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease; /* Slower fade */
+  border: 1px solid rgba(0, 255, 100, 0.4);
+  z-index: 10;
+  margin-top: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.folder-item:hover::after {
+  opacity: 1;
+  transition: opacity 0.6s ease; /* Slower fade */
+}
+
+/* ===== FOOTER ===== */
+.watermark{
+  text-align:center;
+  color:rgba(0,255,100,0.4);
+  font-size:.85rem;
+  margin-top:30px;
+  margin-bottom:20px;
+  letter-spacing:2px;
+  text-shadow:0 0 8px rgba(0,255,100,0.25);
+  opacity:.7;
+  transition: all 0.6s ease; /* Slower transitions */
+  padding: 10px 20px;
+  border-radius: 5px;
+  background: rgba(0,20,0,0.3);
+  border: 1px solid rgba(0,255,100,0.1);
+}
+.watermark:hover{
+  opacity:1;
+  background: rgba(0,25,0,0.5);
+  border-color: rgba(0,255,100,0.2);
+  transition: all 0.6s ease; /* Slower transitions */
+}
+</style>
+</head>
+<body>
+<canvas id="matrix-bg"></canvas>
+<div class="crt-overlay"></div>
+<div class="vignette"></div>
+
+<!-- LOADER -->
+<div class="loader-screen" id="introLoader">
+  <div class="screen-noise"></div>
+  <div class="terminal-glow">
+    <span class="loader-line">[ SYSTEM INITIALIZING_ ]</span>
+    <span class="loader-line">OBSCURE.exe :: LOADING...</span>
+    <span class="loader-line">WELCOME_TO_OBSCURE</span>
+    <span class="loader-line">[OPENING_SYSTEM]</span>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="stage" id="stage">
+  <div class="main" id="main">
+    <img src="https://ella.janitorai.com/media-approved/wddSCytJpQ3wt-imU5NQB.webp" alt="Profile" class="profile-img">
+    <div class="header">OBSCURE</div>
+    <div class="welcome-text">AI Bot creator, Graphic Designer, and video editor.</div>
+
+    <!-- ACCOUNTS PANEL -->
+    <div class="panel">
+      <h2>My Accounts</h2>
+      <div class="panel-content">
+        <div class="accounts-grid">
+          <a href="https://discordapp.com/users/1433583472240234596" class="account-item" target="_blank">
+            <img src="https://files.catbox.moe/96xkw5.png" alt="Discord" class="account-icon">
+            <span>Discord</span>
+          </a>
+          <a href="https://x.com/OBSCURE322173" class="account-item" target="_blank">
+            <img src="https://files.catbox.moe/gbc91r.png" alt="Twitter/X" class="account-icon">
+            <span>Twitter/X</span>
+          </a>
+          <a href="https://chub.ai/users/OBSCURE265" class="account-item" target="_blank">
+            <img src="https://files.catbox.moe/6ff3cy.png" alt="Chub.ai" class="account-icon">
+            <span>Chub.ai</span>
+          </a>
+          <a href="https://janitorai.com/profiles/45af9511-3411-40db-8737-217fcb7284e8_profile-of-obscure" class="account-item" target="_blank">
+            <img src="https://files.catbox.moe/ehcrjb.png" alt="JanitorAI" class="account-icon">
+            <span>JanitorAI</span>
+          </a>
+          <a href="https://ko-fi.com/obscure265" class="account-item" target="_blank">
+            <img src="https://files.catbox.moe/0amyhr.png" alt="Ko-fi" class="account-icon">
+            <span>Ko-fi</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ABOUT PANEL -->
+    <div class="panel">
+      <h2>About This Account</h2>
+      <div class="panel-content">
+        <p>This account creates characters that contain a special kind of story in them. Each one has its own background and scenario. I create different types of bots, but mostly I'm interested in horror ones, yet ones that have an interesting, yet deep and mysterious story. So if you like these kinds of Characters, then you're in the right profile.</p>
+      </div>
+    </div>
+
+    <!-- BOT TYPES PANEL -->
+    <div class="panel">
+      <h2>Bot Types</h2>
+      <div class="panel-content">
+        <ul style="list-style:none;padding:0;">
+          <li>• Horror | Analog-Horror.</li>
+          <li>• Mythical Interesting Creatures.</li>
+          <li>• Fantasy Mythical Creatures.</li>
+          <li>• Some Types of Paranormal Creatures.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- FOLDERS PANEL -->
+    <div class="panel">
+      <h2>JanitorAI Character's Special Folder:</h2>
+      <div class="panel-content">
+        <div class="folder-container">
+          <a href="-" 
+             class="folder-item" 
+             data-tooltip="-comming soon-">
+            <img src="https://files.catbox.moe/vhrdt1.png" alt="under_dev_work_folder" class="folder-icon">
+            <span class="folder-name">under_dev_work_folder</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <footer class="watermark">© Obscure © (2022–2025)</footer>
+  </div>
+</div>
+
+<script>
+/* ===== LOADER ===== */
+function whenLoaderDone(loaderEl){
+  const lines=[...loaderEl.querySelectorAll('.loader-line')];
+  let max=0;
+  lines.forEach(el=>{
+    const s=getComputedStyle(el);
+    const d=parseFloat(s.animationDelay)||0;
+    const dur=parseFloat(s.animationDuration)||0;
+    max=Math.max(max,d+dur);
+  });
+  return new Promise(r=>setTimeout(r,(max+0.8)*1000)); // Slower removal
+}
+const introLoader=document.getElementById('introLoader');
+const main=document.getElementById('main');
+whenLoaderDone(introLoader).then(()=>{
+  introLoader.style.transition='opacity 0.8s ease'; // Slower fade out
+  introLoader.style.opacity='0';
+  setTimeout(()=>{introLoader.remove();main.style.display='flex';},900); // Slower removal
+});
+
+/* ===== MATRIX BACKGROUND ===== */
+const canvas=document.getElementById('matrix-bg');
+const ctx=canvas.getContext('2d');
+canvas.width=innerWidth;canvas.height=innerHeight;
+const letters="01";
+const fontSize=14;
+let cols=Math.floor(canvas.width/fontSize);
+let drops=Array(cols).fill(1);
+function draw(){
+  ctx.fillStyle="rgba(0,0,0,0.07)";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle="#00ff66";
+  ctx.font=fontSize+"px Courier";
+  for(let i=0;i<drops.length;i++){
+    const text=letters[Math.floor(Math.random()*letters.length)];
+    ctx.fillText(text,i*fontSize,drops[i]*fontSize);
+    if(drops[i]*fontSize>canvas.height&&Math.random()>0.975)drops[i]=0;
+    drops[i]++;
+  }
+  requestAnimationFrame(draw);
+}
+draw();
+</script>
+</body>
+</html>
