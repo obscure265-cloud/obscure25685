@@ -319,8 +319,8 @@
         }
 
         .profile-img {
-            width: 180px;
-            height: 180px;
+            width: 220px;
+            height: 220px;
             border-radius: 50%;
             border: 2px solid var(--matrix-green);
             box-shadow: 0 0 15px var(--glow-color);
@@ -328,6 +328,19 @@
             position: relative;
             overflow: hidden;
             animation: pulse 3s infinite alternate;
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+         .profile-img:hover {
+            width: 230px;
+            height: 230px;
+            border-radius: 50%;
+            border: 2px solid var(--matrix-green);
+            box-shadow: 0 0 15px var(--glow-color);
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
         }
 
         @keyframes pulse {
@@ -357,6 +370,7 @@
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             gap: 15px;
             margin-top: 15px;
+            justify-content: center;
         }
 
         .account-item {
@@ -410,6 +424,22 @@
             border-bottom: 1px dotted rgba(0, 255, 65, 0.2);
             position: relative;
             padding-left: 20px;
+            transition: 0.5 ease;
+            cursor: pointer;
+            color: green;
+            transition: all 0.4s ease;
+        }
+         .bot-type-item:hover {
+            padding: 8px 0;
+            border-bottom: 1px dotted rgba(0, 255, 65, 0.2);
+            position: relative;
+            padding-left: 20px;
+            transform: scale(1.01);
+            transition: 0.5 ease;
+            transition-duration: 0.5;
+            color: rgb(0, 255, 55);
+            font-weight: bolder;
+            transition: all 0.4s ease;
         }
 
         .bot-type-item::before {
@@ -458,11 +488,12 @@
         .folder-item:hover {
             border-color: var(--matrix-green);
             box-shadow: 0 0 15px rgba(0, 255, 65, 0.4);
+            transform: scale(1.03);
         }
 
         .folder-icon {
-            width: 60px;
-            height: 60px;
+            width: 100px;
+            height: 100px;
             margin-bottom: 10px;
             filter: brightness(0.8) sepia(1) hue-rotate(80deg) saturate(5);
         }
@@ -551,6 +582,20 @@
                 font-size: 1rem;
             }
         }
+        .infos {
+            color: green;
+            font-size: 10px;
+            font-weight: bold;
+            text-align: center;
+             transition: all 0.4s ease, box-shadow 0.5s ease;
+        }
+         .infos:hover {
+            color: rgb(0, 196, 0);
+            font-size: 10px;
+            font-weight: bold;
+            text-align: center;
+             transition: all 0.4s ease, box-shadow 0.5s ease;
+        }
     </style>
 </head>
 <body>
@@ -606,23 +651,23 @@
                     <div class="accounts-grid">
                         <a href="https://discordapp.com/users/1433583472240234596" class="account-item" target="_blank">
                             <img src="https://files.catbox.moe/96xkw5.png" alt="Discord" class="account-icon">
-                            <span>Discord</span>
+                            <span style="text-align: center;">Discord<br><span class="infos">(For Feedbacks)</span></span>
                         </a>
                         <a href="https://x.com/OBSCURE322173" class="account-item" target="_blank">
                             <img src="https://files.catbox.moe/gbc91r.png" alt="Twitter/X" class="account-icon">
-                            <span>Twitter/X</span>
+                            <span style="text-align: center;">Twitter/X<br><span class="infos">(For Updates)</span></span>
                         </a>
                         <a href="https://chub.ai/users/OBSCURE265" class="account-item" target="_blank">
                             <img src="https://files.catbox.moe/6ff3cy.png" alt="Chub.ai" class="account-icon">
-                            <span>Chub.ai</span>
+                            <span style="text-align: center;">Chub.ai<br><span class="infos">(Second Account)</span></span>
                         </a>
                         <a href="https://janitorai.com/profiles/45af9511-3411-40db-8737-217fcb7284e8_profile-of-obscure" class="account-item" target="_blank">
                             <img src="https://files.catbox.moe/ehcrjb.png" alt="JanitorAI" class="account-icon">
-                            <span>JanitorAI</span>
+                            <span style="text-align: center;">JanitorAI<br><span class="infos">(Main Account)</span></span>
                         </a>
                         <a href="https://ko-fi.com/obscure265" class="account-item" target="_blank">
                             <img src="https://files.catbox.moe/0amyhr.png" alt="Ko-fi" class="account-icon">
-                            <span>Ko-fi</span>
+                            <span style="text-align: center;">Ko-fi<br><span class="infos">(Tip Me!)</span></span>
                         </a>
                     </div>
                 </div>
@@ -635,25 +680,25 @@
                 
                 <!-- Bot Types Section -->
                 <div class="content-section">
-                    <h2 class="section-title">Characters i do: </h2>
+                    <h2 class="section-title">Characters I Do: </h2>
                     <ul class="bot-types">
-                        <li class="bot-type-item">Horror | Analog-Horror</li>
-                        <li class="bot-type-item">Mythical Interesting Creatures</li>
-                        <li class="bot-type-item">Fantasy Mythical Creatures</li>
-                        <li class="bot-type-item">Fictional TOP-SECRET Organisations</li>
-                        <li class="bot-type-item">Some Types of Paranormal Creatures</li>
+                        <li class="bot-type-item">Horror | Analog-Horror with deep stories.</li>
+                        <li class="bot-type-item">Mythical Interesting Creatures.</li>
+                        <li class="bot-type-item">Fantasy Mythical Creatures.</li>
+                        <li class="bot-type-item">Fictional TOP-SECRET Organisations.</li>
+                        <li class="bot-type-item">Some Types of Paranormal Creatures.</li>
                     </ul>
                 </div>
                 
                 <!-- Folders Section -->
                 <div class="content-section">
-                    <h2 class="section-title">Additional </h2>
-                    <p>contains specialized (Detailed) character data in a fictional secret soviet organization called (M.R.I.S):</p>
+                    <h2 class="section-title">Additional Things: </h2>
+                    <p>> Contains specialized (Detailed) character data in a fictional organizations:</p>
                     
                     <div class="folder-container">
                         <a href="#" class="folder-item" data-tooltip="UNDER DEVELOPMENT - COMING SOON">
-                            <img src="https://files.catbox.moe/d6n9x1.png" alt="Development Folder" class="folder-icon">
-                            <span>Dev_Seq_Terminal (COMING SOON!)</span>
+                            <img src="https://files.catbox.moe/qnucys.png" alt="Development Folder" class="folder-icon">
+                            <span>M.R.I.S (COMING SOON!)</span>
                         </a>
                     </div>
                 </div>
@@ -675,11 +720,11 @@
 
         // Super fast boot sequence
         const bootSequence = [
-            { command: "> boot obscurus_system", response: "READY", delay: 80 },
+            { command: "> boot obscure_website", response: "READY", delay: 80 },
             { command: "> load terminal_core", response: "LOADED", delay: 60 },
             { command: "> init matrix_display", response: "ACTIVE", delay: 70 },
             { command: "> auth user=obscure", response: "VERIFIED", delay: 60 },
-            { command: "> system online", response: "WELCOME", delay: 100 }
+            { command: "> system online", response: "WELCOME!", delay: 100 }
         ];
 
         let currentProgress = 0;
@@ -832,6 +877,7 @@
     </script>
 </body>
 </html>
+
 
 
 
