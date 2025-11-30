@@ -260,27 +260,36 @@
             box-shadow: 0 0 20px var(--glow-color);
         }
 
-        .accounts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-            justify-content: center;
-        }
+.accounts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    max-width: 800px; /* Add max-width to contain the grid */
+    margin-left: auto;
+    margin-right: auto;
+}
 
-        .account-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 15px 10px;
-            border: 1px solid rgba(0, 255, 65, 0.3);
-            background: rgba(0, 20, 0, 0.2);
-            text-decoration: none;
-            color: var(--terminal-text);
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
+.account-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 10px;
+    border: 1px solid rgba(0, 255, 65, 0.3);
+    background: rgba(0, 20, 0, 0.2);
+    text-decoration: none;
+    color: var(--terminal-text);
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+}
 
         .account-item:hover {
             border-color: var(--matrix-green);
@@ -417,7 +426,7 @@
             }
             
             .section-title {
-                font-size: 1.1rem;
+                font-size: 1rem;
                 letter-spacing: 1px;
             }
             
@@ -545,9 +554,10 @@
             
             .account-item {
                 flex-direction: row;
-                text-align: left;
+                text-align: center;
                 padding: 12px;
                 min-height: auto;
+                margin:0 auto;
             }
             
             .account-icon {
@@ -601,9 +611,8 @@
                 
                 <!-- Accounts Section -->
                 <div class="content-section">
-                    <h2 class="section-title">ACCESS POINTS: </h2>
-                    <p>Direct connections to my digital accounts:</p>
-                    
+                    <h2 class="section-title">MY ACCOUNTS: </h2>
+
                     <div class="accounts-grid">
                         <a href="https://discordapp.com/users/1433583472240234596" class="account-item" target="_blank">
                             <img src="https://files.catbox.moe/96xkw5.png" alt="Discord" class="account-icon">
@@ -621,10 +630,6 @@
                             <img src="https://files.catbox.moe/ehcrjb.png" alt="JanitorAI" class="account-icon">
                             <span style="text-align: center;">JanitorAI<br><span class="infos">(Main Account)</span></span>
                         </a>
-                        <a href="https://ko-fi.com/obscure265" class="account-item" target="_blank">
-                            <img src="https://files.catbox.moe/0amyhr.png" alt="Ko-fi" class="account-icon">
-                            <span style="text-align: center;">Ko-fi<br><span class="infos">(Tip Me!)</span></span>
-                        </a>
                     </div>
                 </div>
                 
@@ -632,31 +637,34 @@
                 <div class="content-section">
                     <h2 class="section-title">About This Account: </h2>
                     <p>This account creates characters on chatbot sites that contain a special kind of story in them. Each one has its own background and scenario. I create different types of bots, but mostly I'm interested in horror ones, yet ones that have an interesting, yet deep and mysterious story. So if you like these kinds of Characters, then you're in the right profile.</p>
+                    <br>
+                    <h2 class="section-title">About My Chatbots: </h2>
+                    <p>I usually make one character every month or two, depending on how much time I have and how detailed the story is. Each bot has its own vibe and little hidden things to discover. I create different kinds of characters, but they all lean toward horror and uncanny themes. I also make sure everything fits JanitorAI's rules and works smoothly with how the AI functions.</p>
                 </div>
-                
                 <!-- Bot Types Section -->
                 <div class="content-section">
                     <h2 class="section-title">Characters I Do: </h2>
                     <ul class="bot-types">
-                        <li class="bot-type-item">Horror | Analog-Horror with deep stories.</li>
-                        <li class="bot-type-item">Mythical Interesting Creatures.</li>
-                        <li class="bot-type-item">Fantasy Mythical Creatures.</li>
-                        <li class="bot-type-item">Fictional TOP-SECRET Organisations.</li>
-                        <li class="bot-type-item">Some Types of Paranormal Creatures.</li>
+                        <li class="bot-type-item">Horror | Analog-Horror.</li>
+                        <li class="bot-type-item">Fictional Interesting Creatures.</li>
+                        <li class="bot-type-item">Fictional Organisations and worlds.</li>
+                        <li class="bot-type-item">Mystery Immersive Chatbots.</li>
+                        <li class="bot-type-item">Characters With Deep Story.</li>
                     </ul>
                 </div>
                 
                 <!-- Folders Section -->
                 <div class="content-section">
-                    <h2 class="section-title">Additional Things: </h2>
-                    <p>> Contains specialized (Detailed) character data in a fictional organization:</p>
-                    
+                    <h2 class="section-title">Characters' Data: </h2>
                     <div class="folder-container">
                         <a href="https://obscure265-cloud.github.io/MRIS_TERMINAL_SYSTEM/" class="folder-item" data-tooltip="UNDER DEVELOPMENT - COMING SOON">
                             <img src="https://files.catbox.moe/qnucys.png" alt="Development Folder" class="folder-icon">
-                            <span style="color: #00ff41; font-weight: bold;">M.R.I.S TERMINAL</span>
+                            <span style="color: #00ff7b; font-weight: bold;">M.R.I.S TERMINAL</span>
                         </a>
+                        
                     </div>
+<br>
+                                  <p style="text-align: center; font-size: 0.7rem;">Contains specialized (Detailed) characters data in a fictional organization (I Might Add Other Things.)</p>
                 </div>
             </div>
             
@@ -709,6 +717,7 @@
     </script>
 </body>
 </html>
+
 
 
 
